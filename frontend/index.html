@@ -1,0 +1,333 @@
+<!DOCTYPE html>  <html lang="pt-BR">  
+<head>  
+  <meta charset="UTF-8">  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">  
+  <title>Maralux.AI</title>    <link rel="stylesheet" href="style.css">  
+</head>  
+<body>  <!-- BG -->  <div class="bg-grid"></div>  
+<div class="bg-glow"></div>  
+<div class="corner c-tl"></div>  
+<div class="corner c-tr"></div>  
+<div class="corner c-bl"></div>  
+<div class="corner c-br"></div>  <!-- ══════════════════════════════════════════  
+     SCREEN 1 — LANDING  
+════════════════════════════════════════════ -->  <div class="screen" id="landingScreen">  
+  <div class="auth-card" style="text-align:center">  <div class="auth-logo">  
+  <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">  
+    <polygon points="22,3 40,12 40,32 22,41 4,32 4,12" stroke="url(#lg_land)" stroke-width="1.5" fill="none"/>  
+    <polygon points="22,11 33,17 33,27 22,33 11,27 11,17" stroke="url(#lg_land)" stroke-width="1" fill="none" opacity=".5"/>  
+    <circle cx="22" cy="22" r="6" fill="url(#lg_land)" opacity=".9"/>  
+    <defs>  
+      <linearGradient id="lg_land" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">  
+        <stop offset="0%" stop-color="#00e5ff"/>  
+        <stop offset="50%" stop-color="#b400ff"/>  
+        <stop offset="100%" stop-color="#ff0066"/>  
+      </linearGradient>  
+    </defs>  
+  </svg>  
+  <span class="auth-logo-text">MARALUX.AI</span>  
+</div>  
+
+<p class="landing-desc">  
+  Inteligência artificial de próxima geração.<br>Bem-vindo ao futuro.  
+</p>  
+
+<button class="btn btn-primary btn-landing" onclick="showScreen('loginScreen')">ENTRAR</button>  
+<button class="btn btn-ghost" onclick="showScreen('registerScreen')">CRIAR CONTA</button>
+
+  </div>  
+</div>  <!-- ══════════════════════════════════════════  
+     SCREEN 2 — LOGIN  
+════════════════════════════════════════════ -->  <div class="screen hidden" id="loginScreen">  
+  <div class="auth-card">  <div class="auth-logo">  
+  <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">  
+    <polygon points="22,3 40,12 40,32 22,41 4,32 4,12" stroke="url(#lg_login)" stroke-width="1.5" fill="none"/>  
+    <circle cx="22" cy="22" r="6" fill="url(#lg_login)" opacity=".9"/>  
+    <defs>  
+      <linearGradient id="lg_login" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">  
+        <stop offset="0%" stop-color="#00e5ff"/>  
+        <stop offset="100%" stop-color="#b400ff"/>  
+      </linearGradient>  
+    </defs>  
+  </svg>  
+  <span class="auth-logo-text">MARALUX.AI</span>  
+</div>  
+
+<div class="auth-title">ENTRAR</div>  
+<div class="auth-sub">Acesse sua conta</div>  
+
+<div class="alert alert-error" id="loginError"></div>  
+
+<div class="field">  
+  <label>E-mail</label>  
+  <input type="email" id="loginEmail" placeholder="seu@email.com" autocomplete="email"  
+    onkeydown="if(event.key==='Enter') doLogin()">  
+</div>  
+
+<div class="field">  
+  <label>Senha</label>  
+  <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password"  
+    onkeydown="if(event.key==='Enter') doLogin()">  
+</div>  
+
+<button class="btn btn-primary" id="loginBtn" onclick="doLogin()" style="margin-top:8px">  
+  <div class="spinner" id="loginSpinner"></div>  
+  <span id="loginBtnText">ENTRAR</span>  
+</button>  
+
+<div class="auth-footer">  
+  Não tem conta?  
+  <button class="btn-link" onclick="showScreen('registerScreen')">Criar conta</button>  
+</div>
+
+  </div>  
+</div>  <!-- ══════════════════════════════════════════  
+     SCREEN 3 — REGISTER  
+════════════════════════════════════════════ -->  <div class="screen hidden" id="registerScreen">  
+  <div class="auth-card">  <div class="auth-logo">  
+  <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">  
+    <polygon points="22,3 40,12 40,32 22,41 4,32 4,12" stroke="url(#lg_reg)" stroke-width="1.5" fill="none"/>  
+    <circle cx="22" cy="22" r="6" fill="url(#lg_reg)" opacity=".9"/>  
+    <defs>  
+      <linearGradient id="lg_reg" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">  
+        <stop offset="0%" stop-color="#00e5ff"/>  
+        <stop offset="100%" stop-color="#b400ff"/>  
+      </linearGradient>  
+    </defs>  
+  </svg>  
+  <span class="auth-logo-text">MARALUX.AI</span>  
+</div>  
+
+<div class="auth-title">CRIAR CONTA</div>  
+<div class="auth-sub">Junte-se ao futuro</div>  
+
+<div class="alert alert-error" id="registerError"></div>  
+
+<div class="field">  
+  <label>Nome completo</label>  
+  <input type="text" id="regName" placeholder="Seu nome" autocomplete="name">  
+</div>  
+
+<div class="field">  
+  <label>E-mail</label>  
+  <input type="email" id="regEmail" placeholder="seu@email.com" autocomplete="email">  
+</div>  
+
+<div class="field">  
+  <label>Senha (mínimo 6 caracteres)</label>  
+  <input type="password" id="regPassword" placeholder="••••••••" autocomplete="new-password"  
+    onkeydown="if(event.key==='Enter') doRegister()">  
+</div>  
+
+<button class="btn btn-primary" id="registerBtn" onclick="doRegister()" style="margin-top:8px">  
+  <div class="spinner" id="registerSpinner"></div>  
+  <span id="registerBtnText">CRIAR CONTA</span>  
+</button>  
+
+<div class="auth-footer">  
+  Já tem conta?  
+  <button class="btn-link" onclick="showScreen('loginScreen')">Entrar</button>  
+</div>
+
+  </div>  
+</div>  <!-- ══════════════════════════════════════════  
+     SCREEN 4 — OTP VERIFICATION  
+════════════════════════════════════════════ -->  <div class="screen hidden" id="otpScreen">  
+  <div class="auth-card">  <div class="auth-logo">  
+  <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">  
+    <polygon points="22,3 40,12 40,32 22,41 4,32 4,12" stroke="url(#lg_otp)" stroke-width="1.5" fill="none"/>  
+    <circle cx="22" cy="22" r="6" fill="url(#lg_otp)" opacity=".9"/>  
+    <defs>  
+      <linearGradient id="lg_otp" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">  
+        <stop offset="0%" stop-color="#00e5ff"/>  
+        <stop offset="100%" stop-color="#b400ff"/>  
+      </linearGradient>  
+    </defs>  
+  </svg>  
+  <span class="auth-logo-text">MARALUX.AI</span>  
+</div>  
+
+<div class="auth-title">VERIFICAÇÃO</div>  
+<div class="auth-sub" id="otpSubtitle">Código enviado para seu e-mail</div>  
+
+<div class="alert alert-info show" id="otpInfo">  
+  <span>📧</span>  
+  <span id="otpInfoText">Gerando código...</span>  
+</div>  
+<div class="alert alert-error" id="otpError"></div>  
+<div class="alert alert-success" id="otpSuccess"></div>  
+
+<div class="otp-row">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp0"  
+    oninput="otpMove(this,0)" onkeydown="otpBack(event,0)">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp1"  
+    oninput="otpMove(this,1)" onkeydown="otpBack(event,1)">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp2"  
+    oninput="otpMove(this,2)" onkeydown="otpBack(event,2)">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp3"  
+    oninput="otpMove(this,3)" onkeydown="otpBack(event,3)">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp4"  
+    oninput="otpMove(this,4)" onkeydown="otpBack(event,4)">  
+  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp5"  
+    oninput="otpMove(this,5)" onkeydown="otpBack(event,5)">  
+</div>  
+
+<div class="otp-timer" id="otpTimer">  
+  Reenviar em <span id="otpCountdown">60</span>s  
+</div>  
+
+<button class="btn btn-primary" id="verifyBtn" onclick="doVerify()" style="margin-top:16px">  
+  <div class="spinner" id="verifySpinner"></div>  
+  <span id="verifyBtnText">VERIFICAR</span>  
+</button>  
+
+<div class="otp-resend-wrap">  
+  <button class="btn-link" id="resendBtn" onclick="resendOtp()">Reenviar código</button>  
+</div>
+
+  </div>  
+</div>  <!-- ══════════════════════════════════════════  
+     SCREEN 5 — APP  
+════════════════════════════════════════════ -->  <div class="screen hidden" id="appScreen">    <!-- MENU OVERLAY -->    <div class="overlay" id="menuOverlay" onclick="closeAllMenus()">  
+    <div class="dropdown" onclick="event.stopPropagation()">  <div class="dd-label">Menu</div>  
+
+  <div class="dd-item" onclick="newChat(); closeAllMenus()">  
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">  
+      <line x1="8" y1="2" x2="8" y2="14"/>  
+      <line x1="2" y1="8" x2="14" y2="8"/>  
+    </svg>  
+    Nova Sessão  
+  </div>  
+
+  <div class="dd-label" style="margin-top:4px">Sessões</div>  
+
+  <div class="sessions-scroll" id="sessionsList">  
+    <div class="session-entry active">  
+      <span class="session-dot"></span>  
+      <span>Sessão atual</span>  
+    </div>  
+  </div>  
+
+</div>
+
+  </div>    <!-- PROFILE OVERLAY -->    <div class="overlay" id="profileOverlay" onclick="closeAllMenus()">  
+    <div class="dropdown" onclick="event.stopPropagation()">  <div class="profile-info">  
+    <div class="profile-av" id="profileMenuAv">  
+      <img id="profileMenuAvImg" src="" style="display:none">  
+      <span id="profileMenuIni">?</span>  
+    </div>  
+    <div>  
+      <div class="profile-name" id="profileMenuName">–</div>  
+      <div class="profile-email" id="profileMenuEmail">–</div>  
+    </div>  
+  </div>  
+
+  <div class="dd-item" onclick="openProfileEdit(); closeAllMenus()">  
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">  
+      <path d="M11 2l3 3L5 14H2v-3L11 2z"/>  
+    </svg>  
+    Editar Perfil  
+  </div>  
+
+  <div class="dd-item danger" onclick="doLogout()">  
+    <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">  
+      <path d="M10 3h3v10h-3M6 11l4-3-4-3M10 8H2"/>  
+    </svg>  
+    Sair  
+  </div>  
+
+</div>
+
+  </div>    <!-- HEADER -->    <header class="app-header">  <div class="header-left">  
+  <button class="dots-btn" onclick="toggleMenu('menuOverlay', event)" aria-label="Menu">  
+    <span></span>  
+    <span></span>  
+    <span></span>  
+  </button>  
+  <div class="header-logo">  
+    <svg class="header-logo-icon" viewBox="0 0 32 32" fill="none">  
+      <polygon points="16,2 29,9 29,23 16,30 3,23 3,9" stroke="url(#lg_hdr)" stroke-width="1.5" fill="none"/>  
+      <circle cx="16" cy="16" r="5" fill="url(#lg_hdr)" opacity=".9"/>  
+      <defs>  
+        <linearGradient id="lg_hdr" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">  
+          <stop offset="0%" stop-color="#00e5ff"/>  
+          <stop offset="100%" stop-color="#b400ff"/>  
+        </linearGradient>  
+      </defs>  
+    </svg>  
+    <span class="header-logo-text">MARALUX.AI</span>  
+  </div>  
+</div>  
+
+<div class="header-right">  
+  <div class="status-row">  
+    <div class="status-dot" id="statusDot"></div>  
+    <span class="status-text" id="statusText">ONLINE</span>  
+  </div>  
+  <button class="avatar-btn" id="headerAvatarBtn"  
+    onclick="toggleMenu('profileOverlay', event)" aria-label="Perfil">  
+    <img id="headerAvatarImg" src="" style="display:none">  
+    <span id="headerAvatarIni">?</span>  
+  </button>  
+</div>
+
+  </header>    <!-- CHAT AREA -->    <div class="chat-area">  <div class="messages" id="messagesArea">  
+  <!-- Welcome screen is injected here by JS on login -->  
+</div>  
+
+<div class="input-area">  
+  <div class="input-wrap">  
+    <textarea  
+      id="userInput"  
+      placeholder="Envie uma mensagem…"  
+      rows="1"  
+      onkeydown="handleKey(event)"  
+      oninput="autoResize(this)"  
+    ></textarea>  
+    <button class="send-btn" onclick="sendMessage()" aria-label="Enviar">  
+      <svg viewBox="0 0 16 16">  
+        <path d="M14.5 8L2 14l2.5-6H14.5zM2 2l12.5 6H4.5L2 2z"/>  
+      </svg>  
+    </button>  
+  </div>  
+</div>
+
+  </div>  </div><!-- /#appScreen -->  <!-- ══════════════════════════════════════════  
+     PROFILE EDIT MODAL  
+════════════════════════════════════════════ -->  <div class="modal-overlay" id="profileModal">  
+  <div class="modal">  <div class="modal-title">  
+  EDITAR PERFIL  
+  <button class="modal-close" onclick="closeProfileEdit()">✕</button>  
+</div>  
+
+<div class="alert alert-success" id="profileSuccess"></div>  
+<div class="alert alert-error"   id="profileError"></div>  
+
+<div class="avatar-upload-area">  
+  <div class="avatar-preview" id="avatarPreview"  
+    onclick="document.getElementById('avatarInput').click()">  
+    <img id="avatarPreviewImg" src="" style="display:none">  
+    <span id="avatarPreviewIni">?</span>  
+  </div>  
+  <div class="avatar-upload-hint">Clique para alterar foto</div>  
+  <input type="file" id="avatarInput" accept="image/*" style="display:none"  
+    onchange="handleAvatarUpload(event)">  
+</div>  
+
+<div class="field">  
+  <label>Nome completo</label>  
+  <input type="text" id="editName" placeholder="Seu nome">  
+</div>  
+
+<div class="field">  
+  <label>E-mail</label>  
+  <input type="email" id="editEmail" disabled style="opacity:.5;cursor:not-allowed">  
+</div>  
+
+<button class="btn btn-primary" onclick="saveProfile()" style="margin-top:8px">  
+  SALVAR ALTERAÇÕES  
+</button>
+
+  </div>  
+</div>  <script src="script.js"></script>  </body>  
+</html>
