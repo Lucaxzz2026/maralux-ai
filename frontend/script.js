@@ -1,5 +1,5 @@
 alert("Script carregado!");
-const BACKEND_URL = "http://localhost:3000/chat";
+const BACKEND_URL = "https://maralux-ai.onrender.com/chat";
 
 async function sendMessage() {
   const input = document.getElementById("userInput");
