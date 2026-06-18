@@ -76,8 +76,17 @@ function doVerify(){}
 function resendOtp(){}
 function otpMove(){}
 function otpBack(){}
-function handleKey(){}
-function autoResize(){}
+function handleKey(event){
+  if(event.key === "Enter" && !event.shiftKey){
+    event.preventDefault();
+    sendMessage();
+  }
+}
+
+function autoResize(el){
+  el.style.height = "auto";
+  el.style.height = el.scrollHeight + "px";
+}
 function handleAvatarUpload(){}
 function toggleMenu(id, event){
   if(event){
