@@ -81,7 +81,17 @@ function autoResize(){}
 function handleAvatarUpload(){}
 function toggleMenu(){}
 function closeAllMenus(){}
-function newChat(){}
+function newChat(){
+  const messagesArea = document.getElementById("messagesArea");
+
+  if(messagesArea){
+    messagesArea.innerHTML = `
+      <div style="text-align:center;padding:30px;color:#888;">
+        Nova conversa iniciada.
+      </div>
+    `;
+  }
+}
 function openProfileEdit(){}
 function closeProfileEdit(){}
 function saveProfile(){}
