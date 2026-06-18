@@ -127,5 +127,35 @@ function closeProfileEdit(){
     modal.style.display = "none";
   }
 }
-function saveProfile(){}
+function saveProfile(){
+  const nameInput = document.getElementById("editName");
+
+  if(!nameInput) return;
+
+  const name = nameInput.value.trim();
+
+  if(name){
+    localStorage.setItem("maralux_name", name);
+
+    const profileMenuName = document.getElementById("profileMenuName");
+    const headerAvatarIni = document.getElementById("headerAvatarIni");
+    const profileMenuIni = document.getElementById("profileMenuIni");
+
+    if(profileMenuName){
+      profileMenuName.textContent = name;
+    }
+
+    const initial = name.charAt(0).toUpperCase();
+
+    if(headerAvatarIni){
+      headerAvatarIni.textContent = initial;
+    }
+
+    if(profileMenuIni){
+      profileMenuIni.textContent = initial;
+    }
+  }
+
+  closeProfileEdit();
+}
 function doLogout(){}
