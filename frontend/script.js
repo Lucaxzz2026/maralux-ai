@@ -3,10 +3,22 @@ const BACKEND_URL = "https://maralux-ai.onrender.com/chat";
 
 async function sendMessage() {
   const input = document.getElementById("userInput");
-  if (!input) return;
+  const messagesArea = document.getElementById("messagesArea");
+
+  if (!input || !messagesArea) return;
 
   const text = input.value.trim();
   if (!text) return;
+
+  messagesArea.innerHTML += `
+    <div style="text-align:right;margin:10px;">
+      <div style="display:inline-block;background:#b400ff;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
+        ${text}
+      </div>
+    </div>
+  `;
+
+  input.value = "";
 
   try {
     const response = await fetch(BACKEND_URL, {
@@ -22,12 +34,24 @@ async function sendMessage() {
 
     const data = await response.json();
 
-    console.log(data);
-    alert(data.reply || "Resposta recebida");
+    messagesArea.innerHTML += `
+      <div style="text-align:left;margin:10px;">
+        <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
+          ${data.reply || "Sem resposta"}
+        </div>
+      </div>
+    `;
+
+    messagesArea.scrollTop = messagesArea.scrollHeight;
 
   } catch (err) {
     console.error(err);
-    alert("Erro ao conectar com o servidor");
+
+    messagesArea.innerHTML += `
+      <div style="color:red;margin:10px;">
+        Erro ao conectar com a IA.
+      </div>
+    `;
   }
 }
 
