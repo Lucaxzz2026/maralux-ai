@@ -113,7 +113,19 @@ function newChat(){
     `;
   }
 }
-function openProfileEdit(){}
-function closeProfileEdit(){}
+function openProfileEdit(){
+  const modal = document.getElementById("profileModal");
+
+  if(modal){
+    modal.style.display = "flex";
+  }
+}
+function closeProfileEdit(){
+  const modal = document.getElementById("profileModal");
+
+  if(modal){
+    modal.style.display = "none";
+  }
+}
 function saveProfile(){}
 function doLogout(){}
