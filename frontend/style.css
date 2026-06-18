@@ -1019,3 +1019,25 @@ textarea::placeholder {
   color: var(--muted);
   font-size: 0.83rem;
 }
+.send-btn {
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #00e5ff, #b400ff);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.send-btn svg {
+  width: 20px;
+  height: 20px;
+  fill: white;
+}
+
+.send-btn:hover {
+  opacity: 0.9;
+}
