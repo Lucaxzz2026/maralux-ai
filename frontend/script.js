@@ -1,6 +1,6 @@
 alert("Script carregado!");
 const BACKEND_URL = "https://maralux-ai.onrender.com/chat";
-
+let sessionCount = 1;
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const messagesArea = document.getElementById("messagesArea");
@@ -112,7 +112,11 @@ function closeAllMenus(){
   }
 }
 function newChat(){
+
+  sessionCount++;
+
   const messagesArea = document.getElementById("messagesArea");
+  const sessionsList = document.getElementById("sessionsList");
 
   if(messagesArea){
     messagesArea.innerHTML = `
@@ -120,6 +124,20 @@ function newChat(){
         Nova conversa iniciada.
       </div>
     `;
+  }
+
+  if(sessionsList){
+
+    const item = document.createElement("div");
+
+    item.className = "session-entry";
+
+    item.innerHTML = `
+      <span class="session-dot"></span>
+      <span>Sessão ${sessionCount}</span>
+    `;
+
+    sessionsList.appendChild(item);
   }
 }
 function openProfileEdit(){
