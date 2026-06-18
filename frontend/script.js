@@ -159,3 +159,29 @@ function saveProfile(){
   closeProfileEdit();
 }
 function doLogout(){}
+window.onload = function(){
+
+  const name = localStorage.getItem("maralux_name");
+
+  if(name){
+
+    const profileMenuName = document.getElementById("profileMenuName");
+    const headerAvatarIni = document.getElementById("headerAvatarIni");
+    const profileMenuIni = document.getElementById("profileMenuIni");
+
+    if(profileMenuName){
+      profileMenuName.textContent = name;
+    }
+
+    const initial = name.charAt(0).toUpperCase();
+
+    if(headerAvatarIni){
+      headerAvatarIni.textContent = initial;
+    }
+
+    if(profileMenuIni){
+      profileMenuIni.textContent = initial;
+    }
+  }
+
+};
