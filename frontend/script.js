@@ -79,8 +79,29 @@ function otpBack(){}
 function handleKey(){}
 function autoResize(){}
 function handleAvatarUpload(){}
-function toggleMenu(){}
-function closeAllMenus(){}
+function toggleMenu(id, event){
+  if(event){
+    event.stopPropagation();
+  }
+
+  const overlay = document.getElementById(id);
+
+  if(overlay){
+    overlay.style.display = "flex";
+  }
+}
+function closeAllMenus(){
+  const menuOverlay = document.getElementById("menuOverlay");
+  const profileOverlay = document.getElementById("profileOverlay");
+
+  if(menuOverlay){
+    menuOverlay.style.display = "none";
+  }
+
+  if(profileOverlay){
+    profileOverlay.style.display = "none";
+  }
+}
 function newChat(){
   const messagesArea = document.getElementById("messagesArea");
 
