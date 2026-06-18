@@ -41,8 +41,13 @@ function showScreen(id){
     target.classList.remove("hidden");
   }
 }
-function doLogin(){}
-function doRegister(){}
+function doLogin(){
+  showScreen("appScreen");
+}
+
+function doRegister(){
+  showScreen("appScreen");
+}
 function doVerify(){}
 function resendOtp(){}
 function otpMove(){}
