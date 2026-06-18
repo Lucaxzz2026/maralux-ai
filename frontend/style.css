@@ -1041,3 +1041,38 @@ textarea::placeholder {
 .send-btn:hover {
   opacity: 0.9;
 }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.modal {
+  width: 90%;
+  max-width: 420px;
+  background: #111827;
+  border: 1px solid #333;
+  border-radius: 16px;
+  padding: 20px;
+  color: white;
+}
+
+.modal-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  font-weight: bold;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+}
