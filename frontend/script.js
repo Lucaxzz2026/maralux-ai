@@ -2,6 +2,9 @@ alert("Script carregado!");
 const BACKEND_URL = "https://maralux-ai.onrender.com/chat";
 let sessionCount = 1;
 let currentSession = 1;
+let sessions = {
+  1: []
+};
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const messagesArea = document.getElementById("messagesArea");
@@ -115,7 +118,7 @@ function closeAllMenus(){
 function newChat(){
 
   sessionCount++;
-
+sessions[sessionCount] = [];
   const messagesArea = document.getElementById("messagesArea");
   const sessionsList = document.getElementById("sessionsList");
 
