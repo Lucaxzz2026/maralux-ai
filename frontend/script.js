@@ -136,7 +136,15 @@ function newChat(){
       <span class="session-dot"></span>
       <span>Sessão ${sessionCount}</span>
     `;
+   item.onclick = function(){
 
+  document.querySelectorAll(".session-entry").forEach(el=>{
+    el.classList.remove("active");
+  });
+
+  item.classList.add("active");
+
+};
     sessionsList.appendChild(item);
   }
 }
