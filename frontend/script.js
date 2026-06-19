@@ -12,6 +12,14 @@ async function sendMessage() {
   if (!input || !messagesArea) return;
 
   const text = input.value.trim();
+if(!sessions[currentSession]){
+  sessions[currentSession] = [];
+}
+
+sessions[currentSession].push({
+  sender: "user",
+  text: text
+});
   if (!text) return;
 
   messagesArea.innerHTML += `
