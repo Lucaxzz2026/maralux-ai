@@ -45,7 +45,10 @@ sessions[currentSession].push({
     });
 
     const data = await response.json();
-
+sessions[currentSession].push({
+  sender: "ai",
+  text: data.reply || "Sem resposta"
+});
     messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
