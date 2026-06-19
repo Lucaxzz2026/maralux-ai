@@ -158,6 +158,27 @@ sessions[sessionCount] = [];
 currentSession = parseInt(
   item.textContent.replace("Sessão","").trim()
 );
+const messagesArea = document.getElementById("messagesArea");
+
+if(messagesArea){
+
+  messagesArea.innerHTML = "";
+
+  if(sessions[currentSession]){
+
+    sessions[currentSession].forEach(msg => {
+
+      messagesArea.innerHTML += `
+        <div style="margin:10px;">
+          ${msg.text}
+        </div>
+      `;
+
+    });
+
+  }
+
+}
 };
     sessionsList.appendChild(item);
   }
