@@ -171,13 +171,29 @@ if(messagesArea){
 
     sessions[currentSession].forEach(msg => {
 
-      messagesArea.innerHTML += `
-        <div style="margin:10px;">
+  if(msg.sender === "user"){
+
+    messagesArea.innerHTML += `
+      <div style="text-align:right;margin:10px;">
+        <div style="display:inline-block;background:#b400ff;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
           ${msg.text}
         </div>
-      `;
+      </div>
+    `;
 
-    });
+  } else {
+
+    messagesArea.innerHTML += `
+      <div style="text-align:left;margin:10px;">
+        <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
+          ${msg.text}
+        </div>
+      </div>
+    `;
+
+  }
+
+});
 
   }
 
