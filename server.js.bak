@@ -7,15 +7,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-const fs = require("fs");
 
-function getUsers() {
-  return JSON.parse(fs.readFileSync("users.json", "utf8"));
-}
-
-function saveUsers(users) {
-  fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
-}
 // ======================
 // 🔐 CHAVES (via .env)
 // ======================
@@ -154,62 +146,7 @@ app.post("/chat", async (req, res) => {
 // ======================
 // ▶️ START
 // ======================
-app.post("/register", (req, res) => {
-  const { name, email, password } = req.body;
 
-  const users = getUsers();
-
-  const existingUser = users.find(
-    user => user.email === email
-  );
-
-  if (existingUser) {
-    return res.json({
-      success: false,
-      message: "Email já cadastrado."
-    });
-  }
-
-  users.push({
-    name,
-    email,
-    password
-  });
-
-  saveUsers(users);
-
-  res.json({
-    success: true,
-    message: "Cadastro realizado com sucesso."
-  });
-});
-app.post("/login", (req, res) => {
-
-  const { email, password } = req.body;
-
-  const users = getUsers();
-
-  const user = users.find(
-    u => u.email === email && u.password === password
-  );
-
-  if (!user) {
-    return res.json({
-      success: false,
-      message: "Email ou senha inválidos."
-    });
-  }
-
-  res.json({
-    success: true,
-    message: "Login realizado com sucesso.",
-    user: {
-      name: user.name,
-      email: user.email
-    }
-  });
-
-});
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

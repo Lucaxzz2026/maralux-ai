@@ -80,8 +80,52 @@ function showScreen(id){
     target.classList.remove("hidden");
   }
 }
-function doLogin(){
-  showScreen("appScreen");
+async function doLogin(){
+
+  const email =
+    document.getElementById("loginEmail").value;
+
+  const password =
+    document.getElementById("loginPassword").value;
+
+  try {
+
+    const response = await fetch(
+      "http://localhost:3000/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          email,
+          password
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+
+      alert("Login realizado com sucesso!");
+
+      showScreen("appScreen");
+
+    } else {
+
+      alert(data.message);
+
+    }
+
+  } catch(err){
+
+    console.error(err);
+
+    alert("Erro ao conectar ao servidor.");
+
+  }
+
 }
 
 function doRegister(){
