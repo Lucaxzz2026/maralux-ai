@@ -347,7 +347,7 @@ function saveProfile(){
 function doLogout(){
 
   localStorage.removeItem("maralux_name");
-
+  localStorage.removeItem("loggedUser");
   const profileMenuName = document.getElementById("profileMenuName");
   const headerAvatarIni = document.getElementById("headerAvatarIni");
   const profileMenuIni = document.getElementById("profileMenuIni");
