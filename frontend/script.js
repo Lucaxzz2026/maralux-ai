@@ -109,13 +109,18 @@ async function doLogin(){
     if(data.success){
 
   localStorage.setItem(
-    "loggedUser",
-    JSON.stringify(data.user)
-  );
+  "loggedUser",
+  JSON.stringify(data.user)
+);
 
-  alert("Login realizado com sucesso!");
+localStorage.setItem(
+  "maralux_name",
+  data.user.name
+);
 
-  showScreen("appScreen");
+alert("Login realizado com sucesso!");
+
+showScreen("appScreen");
 
 } else {
 
