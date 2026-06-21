@@ -108,11 +108,16 @@ async function doLogin(){
 
     if(data.success){
 
-      alert("Login realizado com sucesso!");
+  localStorage.setItem(
+    "loggedUser",
+    JSON.stringify(data.user)
+  );
 
-      showScreen("appScreen");
+  alert("Login realizado com sucesso!");
 
-    } else {
+  showScreen("appScreen");
+
+} else {
 
       alert(data.message);
 
@@ -393,3 +398,10 @@ window.onload = function(){
   }
 
 };
+const savedUser = localStorage.getItem("loggedUser");
+
+if(savedUser){
+
+  showScreen("appScreen");
+
+}
