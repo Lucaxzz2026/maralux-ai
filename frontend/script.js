@@ -117,7 +117,29 @@ localStorage.setItem(
   "maralux_name",
   data.user.name
 );
+const profileMenuName =
+  document.getElementById("profileMenuName");
 
+const headerAvatarIni =
+  document.getElementById("headerAvatarIni");
+
+const profileMenuIni =
+  document.getElementById("profileMenuIni");
+
+if(profileMenuName){
+  profileMenuName.textContent = data.user.name;
+}
+
+const initial =
+  data.user.name.charAt(0).toUpperCase();
+
+if(headerAvatarIni){
+  headerAvatarIni.textContent = initial;
+}
+
+if(profileMenuIni){
+  profileMenuIni.textContent = initial;
+}
 alert("Login realizado com sucesso!");
 
 showScreen("appScreen");
