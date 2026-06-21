@@ -128,8 +128,56 @@ async function doLogin(){
 
 }
 
-function doRegister(){
-  showScreen("appScreen");
+async function doRegister(){
+
+  const name =
+   document.getElementById("regName").value;
+
+  const email =
+    document.getElementById("regEmail").value;
+
+  const password =
+    document.getElementById("regPassword").value;
+
+  try {
+
+    const response = await fetch(
+      "http://localhost:3000/register",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type":"application/json"
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(data.success){
+
+      alert("Cadastro realizado com sucesso!");
+
+      showScreen("loginScreen");
+
+    } else {
+
+      alert(data.message);
+
+    }
+
+  } catch(err){
+
+    console.error(err);
+
+    alert("Erro ao conectar ao servidor.");
+
+  }
+
 }
 function doVerify(){}
 function resendOtp(){}
