@@ -20,6 +20,10 @@ sessions[currentSession].push({
   sender: "user",
   text: text
 });
+localStorage.setItem(
+  "maralux_sessions",
+  JSON.stringify(sessions)
+);
   if (!text) return;
 
   messagesArea.innerHTML += `
@@ -49,7 +53,11 @@ sessions[currentSession].push({
   sender: "ai",
   text: data.reply || "Sem resposta"
 });
-    messagesArea.innerHTML += `
+localStorage.setItem(
+  "maralux_sessions",
+  JSON.stringify(sessions)
+);  
+  messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
           ${data.reply || "Sem resposta"}
@@ -76,8 +84,15 @@ function showScreen(id){
   });
 
   const target = document.getElementById(id);
+
   if(target){
     target.classList.remove("hidden");
+  }
+
+  if(id === "appScreen"){
+    setTimeout(() => {
+      loadSavedConversation();
+    }, 100);
   }
 }
 async function doLogin(){
@@ -399,6 +414,44 @@ function doLogout(){
   closeAllMenus();
   showScreen("landingScreen");
 }
+function loadSavedConversation(){
+console.log("SESSIONS:", sessions);
+  const messagesArea =
+    document.getElementById("messagesArea");
+
+  if(!messagesArea) return;
+
+  messagesArea.innerHTML = "";
+
+  if(!sessions[currentSession]) return;
+
+  sessions[currentSession].forEach(msg => {
+
+    if(msg.sender === "user"){
+
+      messagesArea.innerHTML += `
+        <div style="text-align:right;margin:10px;">
+          <div style="display:inline-block;background:#b400ff;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
+            ${msg.text}
+          </div>
+        </div>
+      `;
+
+    } else {
+
+      messagesArea.innerHTML += `
+        <div style="text-align:left;margin:10px;">
+          <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
+            ${msg.text}
+          </div>
+        </div>
+      `;
+
+    }
+
+  });
+
+}
 window.onload = function(){
 
   const name = localStorage.getItem("maralux_name");
@@ -425,10 +478,32 @@ window.onload = function(){
   }
 
 };
+const savedSessions =
+  localStorage.getItem("maralux_sessions");
+alert(
+  localStorage.getItem("maralux_sessions")
+);
+if(savedSessions){
+
+  sessions = JSON.parse(savedSessions);
+  alert(JSON.stringify(sessions));
+  const keys = Object.keys(sessions);
+
+  if(keys.length > 0){
+
+    sessionCount = Math.max(...keys.map(Number));
+
+    currentSession = 1;
+
+  }
+
+}
 const savedUser = localStorage.getItem("loggedUser");
 
 if(savedUser){
 
   showScreen("appScreen");
+
+  loadSavedConversation();
 
 }
