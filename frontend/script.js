@@ -5,6 +5,16 @@ let currentSession = 1;
 let sessions = {
   1: []
 };
+function getSessionKey(){
+
+  const user =
+    JSON.parse(localStorage.getItem("loggedUser"));
+
+  if(!user) return "maralux_sessions_guest";
+
+  return "maralux_sessions_" + user.email;
+
+}
 async function sendMessage() {
   const input = document.getElementById("userInput");
   const messagesArea = document.getElementById("messagesArea");
@@ -21,7 +31,7 @@ sessions[currentSession].push({
   text: text
 });
 localStorage.setItem(
-  "maralux_sessions",
+  getSessionKey(),
   JSON.stringify(sessions)
 );
   if (!text) return;
@@ -54,9 +64,9 @@ sessions[currentSession].push({
   text: data.reply || "Sem resposta"
 });
 localStorage.setItem(
-  "maralux_sessions",
+  getSessionKey(),
   JSON.stringify(sessions)
-);  
+);
   messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
@@ -390,6 +400,8 @@ function doLogout(){
 
   localStorage.removeItem("maralux_name");
   localStorage.removeItem("loggedUser");
+  localStorage.removeItem("maralux_sessions");
+ 
   const profileMenuName = document.getElementById("profileMenuName");
   const headerAvatarIni = document.getElementById("headerAvatarIni");
   const profileMenuIni = document.getElementById("profileMenuIni");
@@ -479,7 +491,10 @@ window.onload = function(){
 
 };
 const savedSessions =
-  localStorage.getItem("maralux_sessions");
+  const savedSessions =
+  localStorage.getItem(
+    getSessionKey()
+  );
 if(savedSessions){
 
   sessions = JSON.parse(savedSessions);
