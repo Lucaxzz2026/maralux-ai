@@ -1,4 +1,4 @@
-alert("Script carregado!");
+
 const BACKEND_URL = "https://maralux-ai.onrender.com/chat";
 let sessionCount = 1;
 let currentSession = 1;
@@ -480,13 +480,9 @@ window.onload = function(){
 };
 const savedSessions =
   localStorage.getItem("maralux_sessions");
-alert(
-  localStorage.getItem("maralux_sessions")
-);
 if(savedSessions){
 
   sessions = JSON.parse(savedSessions);
-  alert(JSON.stringify(sessions));
   const keys = Object.keys(sessions);
 
   if(keys.length > 0){
