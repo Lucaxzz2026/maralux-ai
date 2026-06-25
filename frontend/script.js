@@ -491,7 +491,6 @@ window.onload = function(){
 
 };
 const savedSessions =
-  const savedSessions =
   localStorage.getItem(
     getSessionKey()
   );
