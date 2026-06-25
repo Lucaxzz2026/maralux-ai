@@ -142,6 +142,34 @@ localStorage.setItem(
   "maralux_name",
   data.user.name
 );
+sessions = {
+  1: []
+};
+
+currentSession = 1;
+sessionCount = 1;
+
+const savedSessions =
+  localStorage.getItem(
+    getSessionKey()
+  );
+
+if(savedSessions){
+
+  sessions =
+    JSON.parse(savedSessions);
+
+  const keys =
+    Object.keys(sessions);
+
+  if(keys.length > 0){
+
+    sessionCount =
+      Math.max(...keys.map(Number));
+
+  }
+
+}
 const profileMenuName =
   document.getElementById("profileMenuName");
 
