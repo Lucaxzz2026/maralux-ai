@@ -54,7 +54,9 @@ localStorage.setItem(
       },
       body: JSON.stringify({
         message: text,
-        userId: "guest"
+        userId: JSON.parse(
+  localStorage.getItem("loggedUser")
+).email
       })
     });
 
@@ -428,7 +430,12 @@ function doLogout(){
 
   localStorage.removeItem("maralux_name");
   localStorage.removeItem("loggedUser");
-  localStorage.removeItem("maralux_sessions");
+  sessions = {
+  1: []
+};
+
+currentSession = 1;
+sessionCount = 1;
  
   const profileMenuName = document.getElementById("profileMenuName");
   const headerAvatarIni = document.getElementById("headerAvatarIni");
