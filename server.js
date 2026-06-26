@@ -14,6 +14,37 @@ function getUsers() {
 }
 
 function saveUsers(users) {
+function getConversations(){
+
+  try{
+
+    return JSON.parse(
+      fs.readFileSync(
+        "conversations.json",
+        "utf8"
+      )
+    );
+
+  }catch{
+
+    return {};
+
+  }
+
+}
+
+function saveConversations(conversations){
+
+  fs.writeFileSync(
+    "conversations.json",
+    JSON.stringify(
+      conversations,
+      null,
+      2
+    )
+  );
+
+}
   fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
 }
 // ======================
@@ -162,7 +193,20 @@ ${message}
       "Não consegui responder.";
 
     users[userId].count++;
+   const conversations =
+  getConversations();
 
+if(!conversations[userId]){
+  conversations[userId] = [];
+}
+
+conversations[userId].push({
+  user: message,
+  ai: reply,
+  date: new Date().toISOString()
+});
+
+saveConversations(conversations);
     res.json({ reply });
   } catch (error) {
     console.error("Erro interno:", error);
