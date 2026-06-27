@@ -14,6 +14,12 @@ function getUsers() {
 }
 
 function saveUsers(users) {
+  fs.writeFileSync(
+    "users.json",
+    JSON.stringify(users, null, 2)
+  );
+}
+
 function getConversations(){
 
   try{
@@ -45,8 +51,7 @@ function saveConversations(conversations){
   );
 
 }
-  fs.writeFileSync("users.json", JSON.stringify(users, null, 2));
-}
+  
 // ======================
 // 🔐 CHAVES (via .env)
 // ======================
@@ -210,6 +215,7 @@ saveConversations(conversations);
     res.json({ reply });
   } catch (error) {
     console.error("Erro interno:", error);
+    console.error(error.stack);
     res.json({ reply: "Erro interno." });
   }
 });
