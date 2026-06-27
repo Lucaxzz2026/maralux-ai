@@ -212,6 +212,7 @@ conversations[userId].push({
 });
 
 saveConversations(conversations);
+console.log("CONVERSA SALVA:", conversations);
     res.json({ reply });
   } catch (error) {
     console.error("Erro interno:", error);
