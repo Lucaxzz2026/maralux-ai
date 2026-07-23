@@ -59,8 +59,8 @@ function saveConversations(conversations){
 
 const GOOGLE_AI_KEY = process.env.GOOGLE_AI_KEY;
 const YOUTUBE_KEY = process.env.YOUTUBE_KEY;
-const TAVILY_API_KEY = process.env.TAVILY_API_KEY;
-if (!GOOGLE_AI_KEY || !YOUTUBE_KEY || !TAVILY_API_KEY) {
+
+if (!GOOGLE_AI_KEY || !YOUTUBE_KEY) {
   console.error("❌ Variáveis de ambiente ausentes. Verifique o arquivo .env");
   process.exit(1);
 }
@@ -185,16 +185,6 @@ Quando alguém perguntar quem criou você, responda que foi criada por Rachide L
 Quando alguém perguntar o que é a Maralux AI, explique que é uma inteligência artificial desenvolvida por Rachide Lucas para ajudar usuários com estudos, produtividade, negócios, tecnologia e informações gerais.
 
 Responda sempre de forma educada, clara e útil.
-
-IMPORTANTE:
-
-Use SEMPRE o histórico da conversa para entender o contexto.
-
-Se a pergunta atual depender da pergunta anterior, responda considerando o histórico.
-
-Nunca ignore o histórico da conversa.
-
-Se o usuário fizer uma continuação como "e o Japão?", "quando?", "onde?", "ele?", "isso?", você deve entender que é uma continuação da conversa anterior.
 
 Histórico da conversa:
 
