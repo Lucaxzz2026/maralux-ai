@@ -126,9 +126,16 @@ app.post("/chat", async (req, res) => {
     // 📅 DATA
     // ======================
 
-    if (msg.includes("data") || msg.includes("hoje")) {
-      return res.json({ reply: `Hoje é ${getToday()}` });
-    }
+    if (
+  msg === "que dia é hoje" ||
+  msg === "qual é a data de hoje" ||
+  msg === "data de hoje" ||
+  msg === "hoje é que dia"
+) {
+  return res.json({
+    reply: `Hoje é ${getToday()}`
+  });
+}
 
     // ======================
     // 🎥 YOUTUBE
