@@ -9,6 +9,7 @@ app.use(cors());
 app.use(express.json());
 const fs = require("fs");
 const pool = require("./db");
+const { needsInternet } = require("./services/intentDetector");
 
 function getUsers() {
   return JSON.parse(fs.readFileSync("users.json", "utf8"));
@@ -119,6 +120,7 @@ app.post("/chat", async (req, res) => {
     }
 
     const msg = message.toLowerCase();
+    console.log("Precisa de internet?", needsInternet(message));
 
     // ======================
     // 📅 DATA
