@@ -220,9 +220,17 @@ Histórico da conversa:
 
 ${history}
 
+Informações encontradas na internet:
+
+${contextoInternet}
+
 Pergunta atual:
 
 ${message}
+
+IMPORTANTE:
+Se "Informações encontradas na internet" não estiver vazio, utilize essas informações para responder ao usuário.
+Não diga que você não tem acesso à internet quando houver informações fornecidas acima.
 `
   }]
 }],
