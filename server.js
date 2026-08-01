@@ -10,6 +10,7 @@ app.use(express.json());
 const fs = require("fs");
 const pool = require("./db");
 const { needsInternet } = require("./services/intentDetector");
+const { searchInternet } = require("./services/tavily");
 
 function getUsers() {
   return JSON.parse(fs.readFileSync("users.json", "utf8"));
@@ -121,6 +122,10 @@ app.post("/chat", async (req, res) => {
 
     const msg = message.toLowerCase();
     console.log("Precisa de internet?", needsInternet(message));
+    if (needsInternet(message)) {
+  contextoInternet = await searchInternet(message);
+  console.log("Resultado Tavily:", contextoInternet);
+}
 
     // ======================
     // 📅 DATA
@@ -174,7 +179,13 @@ const history =
       `Usuário: ${c.user}\nMaralux: ${c.ai}`
     )
     .join("\n\n");
-    const aiRes = await fetch(
+    const precisaInternet =
+  /(hoje|últimas|última|notícia|notícias|jogo|jogos|resultado|placar|cotação|preço|clima|tempo|aconteceu|atual|atualmente|agora|quem ganhou)/i.test(message);
+let contextoInternet = "";
+if (precisaInternet) {
+  console.log("🔎 Pesquisa na internet:", message);
+}
+const aiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GOOGLE_AI_KEY}`,
       {
         method: "POST",
