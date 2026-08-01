@@ -121,6 +121,7 @@ app.post("/chat", async (req, res) => {
     }
 
     const msg = message.toLowerCase();
+    let contextoInternet = "";
     console.log("Precisa de internet?", needsInternet(message));
     if (needsInternet(message)) {
   contextoInternet = await searchInternet(message);
@@ -181,7 +182,6 @@ const history =
     .join("\n\n");
     const precisaInternet =
   /(hoje|últimas|última|notícia|notícias|jogo|jogos|resultado|placar|cotação|preço|clima|tempo|aconteceu|atual|atualmente|agora|quem ganhou)/i.test(message);
-let contextoInternet = "";
 if (precisaInternet) {
   console.log("🔎 Pesquisa na internet:", message);
 }
