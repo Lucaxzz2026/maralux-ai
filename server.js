@@ -11,6 +11,7 @@ const fs = require("fs");
 const pool = require("./db");
 const { needsInternet } = require("./services/intentDetector");
 const { searchInternet } = require("./services/tavily");
+const { searchYoutube } = require("./services/youtube");
 
 function getUsers() {
   return JSON.parse(fs.readFileSync("users.json", "utf8"));
@@ -121,11 +122,28 @@ app.post("/chat", async (req, res) => {
     }
 
     const msg = message.toLowerCase();
+    const wantsYoutube =
+  /(vídeo|video|youtube|tutorial|como fazer|me mostra um vídeo|quero um vídeo)/i.test(message);
     let contextoInternet = "";
     console.log("Precisa de internet?", needsInternet(message));
     if (needsInternet(message)) {
   contextoInternet = await searchInternet(message);
   console.log("Resultado Tavily:", contextoInternet);
+}
+if (wantsYoutube) {
+  const videos = await searchYoutube(message);
+
+  if (videos && videos.length > 0) {
+    const resposta = videos
+      .map((v, i) =>
+        `${i + 1}. ${v.title}\nCanal: ${v.channel}\n${v.url}`
+      )
+      .join("\n\n");
+
+    return res.json({
+      reply: `Encontrei estes vídeos no YouTube:\n\n${resposta}`
+    });
+  }
 }
 
     // ======================
