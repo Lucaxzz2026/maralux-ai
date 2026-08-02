@@ -5,6 +5,12 @@ let currentSession = 1;
 let sessions = {
   1: []
 };
+function linkify(text) {
+  return text.replace(
+    /(https?:\/\/[^\s]+)/g,
+    '<a href="$1" target="_blank" style="color:#60a5fa;text-decoration:underline;">$1</a>'
+  );
+}
 function getSessionKey(){
 
   const user =
@@ -63,7 +69,7 @@ localStorage.setItem(
     const data = await response.json();
 sessions[currentSession].push({
   sender: "ai",
-  text: data.reply || "Sem resposta"
+  ${linkify(data.reply || "Sem resposta")}
 });
 localStorage.setItem(
   getSessionKey(),
@@ -365,7 +371,7 @@ if(messagesArea){
     messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
-          ${msg.text}
+          ${linkify(msg.text)}
         </div>
       </div>
     `;
