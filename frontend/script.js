@@ -124,7 +124,7 @@ async function doLogin(){
   try {
 
     const response = await fetch(
-     "https://maralux-ai.onrender.com/login"
+     "https://maralux-ai.onrender.com/login",
       {
         method: "POST",
         headers: {
@@ -235,7 +235,7 @@ async function doRegister(){
   try {
 
     const response = await fetch(
-      "https://maralux-ai.onrender.com/register"
+      "https://maralux-ai.onrender.com/register",
       {
         method: "POST",
         headers: {
