@@ -69,7 +69,7 @@ localStorage.setItem(
     const data = await response.json();
 sessions[currentSession].push({
   sender: "ai",
-  ${linkify(data.reply || "Sem resposta")}
+  text: data.reply || "Sem resposta"
 });
 localStorage.setItem(
   getSessionKey(),
@@ -78,7 +78,7 @@ localStorage.setItem(
   messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
-          ${data.reply || "Sem resposta"}
+          ${linkify(data.reply || "Sem resposta")}
         </div>
       </div>
     `;
@@ -124,7 +124,7 @@ async function doLogin(){
   try {
 
     const response = await fetch(
-      "http://localhost:3000/login",
+     "https://maralux-ai.onrender.com/login"
       {
         method: "POST",
         headers: {
@@ -235,7 +235,7 @@ async function doRegister(){
   try {
 
     const response = await fetch(
-      "http://localhost:3000/register",
+      "https://maralux-ai.onrender.com/register"
       {
         method: "POST",
         headers: {
