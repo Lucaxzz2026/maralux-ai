@@ -284,6 +284,19 @@
       onkeydown="handleKey(event)"  
       oninput="autoResize(this)"  
     ></textarea>  
+    <button
+  class="image-btn"
+  onclick="document.getElementById('imageInput').click()"
+  aria-label="Enviar imagem">
+  📷
+</button>
+
+<input
+  type="file"
+  id="imageInput"
+  accept="image/*"
+  style="display:none;"
+>
     <button class="send-btn" onclick="sendMessage()" aria-label="Enviar">  
       <svg viewBox="0 0 16 16">  
         <path d="M14.5 8L2 14l2.5-6H14.5zM2 2l12.5 6H4.5L2 2z"/>  

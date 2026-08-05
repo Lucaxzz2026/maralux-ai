@@ -1019,6 +1019,27 @@ textarea::placeholder {
   color: var(--muted);
   font-size: 0.83rem;
 }
+.image-btn {
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  color: white;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  margin-right: 10px;
+  transition: 0.2s;
+}
+
+.image-btn:hover {
+  background: rgba(180, 0, 255, 0.15);
+  border-color: #b400ff;
+}
 .send-btn {
   width: 44px;
   height: 44px;
