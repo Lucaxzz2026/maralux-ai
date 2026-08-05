@@ -128,6 +128,8 @@ app.post("/chat", async (req, res) => {
     console.log("Precisa de internet?", needsInternet(message));
     if (needsInternet(message)) {
   contextoInternet = await searchInternet(message);
+  console.log("Pergunta:", message);
+console.log("Contexto encontrado:", contextoInternet.length);
   console.log("Resultado Tavily:", contextoInternet);
 }
 if (wantsYoutube) {
