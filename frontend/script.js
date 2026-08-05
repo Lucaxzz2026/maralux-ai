@@ -559,9 +559,12 @@ if(savedUser){
 
 }
 
-const imageInput = document.getElementById("imageInput");
+window.addEventListener("load", () => {
 
-if (imageInput) {
+  const imageInput =
+    document.getElementById("imageInput");
+
+  if (!imageInput) return;
 
   imageInput.addEventListener("change", function () {
 
@@ -571,29 +574,29 @@ if (imageInput) {
 
     const reader = new FileReader();
 
-reader.onload = function (e) {
+    reader.onload = function (e) {
 
-  const messagesArea =
-    document.getElementById("messagesArea");
+      const messagesArea =
+        document.getElementById("messagesArea");
 
-  messagesArea.innerHTML += `
-    <div style="text-align:right;margin:10px;">
-      <div style="display:inline-block;background:#b400ff;padding:8px;border-radius:12px;max-width:80%;">
-        <img
-          src="${e.target.result}"
-          style="max-width:220px;border-radius:10px;display:block;"
-        >
-      </div>
-    </div>
-  `;
+      messagesArea.innerHTML += `
+        <div style="text-align:right;margin:10px;">
+          <div style="display:inline-block;background:#b400ff;padding:8px;border-radius:12px;max-width:80%;">
+            <img
+              src="${e.target.result}"
+              style="max-width:220px;border-radius:10px;display:block;"
+            >
+          </div>
+        </div>
+      `;
 
-  messagesArea.scrollTop =
-    messagesArea.scrollHeight;
+      messagesArea.scrollTop =
+        messagesArea.scrollHeight;
 
-};
+    };
 
-reader.readAsDataURL(file);
+    reader.readAsDataURL(file);
 
   });
 
-}
+});
