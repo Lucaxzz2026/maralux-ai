@@ -1,12 +1,27 @@
+
 require("dotenv").config();
 
 const express = require("express");
 const cors = require("cors");
+const multer = require("multer");
+const bcrypt = require("bcryptjs");
+const {
+  createAdminSession,
+  deleteAdminSession,
+  requireAdmin
+} = require("./admin-auth");
+const registerAdminRoutes = require("./admin-routes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use("/admin", express.static("admin"));
+registerAdminRoutes(app);
+
+const upload = multer({
+  storage: multer.memoryStorage()
+});
 const fs = require("fs");
 const pool = require("./db");
 const { needsInternet } = require("./services/intentDetector");
@@ -104,13 +119,22 @@ function getToday() {
 // 🚀 CHAT
 // ======================
 
-app.post("/chat", async (req, res) => {
+app.post("/chat", upload.single("image"), async (req, res) => {
   try {
-    const { message, userId = "default" } = req.body;
+    const { message = "", userId = "default" } = req.body;
 
-    if (!message) {
-      return res.json({ reply: "Mensagem vazia." });
-    }
+const image = req.file;
+console.log("📷 IMAGEM RECEBIDA:", image ? {
+  originalname: image.originalname,
+  mimetype: image.mimetype,
+  size: image.size
+} : "NENHUMA");
+
+    if (!message && !image) {
+  return res.json({
+    reply: "Envie uma mensagem ou uma imagem."
+  });
+}
 
     resetUser(userId);
 
@@ -252,7 +276,14 @@ IMPORTANTE:
 Se "Informações encontradas na internet" não estiver vazio, utilize essas informações para responder ao usuário.
 Não diga que você não tem acesso à internet quando houver informações fornecidas acima.
 `
-  }]
+  },
+  ...(image ? [{
+    inline_data: {
+      mime_type: image.mimetype,
+      data: image.buffer.toString("base64")
+    }
+  }] : [])
+]
 }],
         }),
       }
@@ -312,11 +343,14 @@ app.post("/register", (req, res) => {
     });
   }
 
-  users.push({
-    name,
-    email,
-    password
-  });
+  const hashedPassword = bcrypt.hashSync(password, 12);
+
+users.push({
+  name,
+  email,
+  password: hashedPassword,
+  status: "pending"
+});
 
   saveUsers(users);
 
@@ -332,15 +366,29 @@ app.post("/login", (req, res) => {
   const users = getUsers();
 
   const user = users.find(
-    u => u.email === email && u.password === password
-  );
+  u => u.email === email
+);
+if (!user || !bcrypt.compareSync(password, user.password)) {
+  return res.json({
+    success: false,
+    message: "Email ou senha inválidos."
+  });
+}
 
-  if (!user) {
-    return res.json({
-      success: false,
-      message: "Email ou senha inválidos."
-    });
-  }
+if (user.status === "pending") {
+  return res.json({
+    success: false,
+    message: "Sua conta está aguardando aprovação."
+  });
+}
+
+if (user.status === "blocked") {
+  return res.json({
+    success: false,
+    message: "Sua conta está bloqueada."
+  });
+}
+
 
   res.json({
     success: true,

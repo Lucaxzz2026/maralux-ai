@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Maralux.AI — Painel Administrativo</title>
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+
+  <!-- LOGIN ADMIN -->
+  <section id="loginScreen" class="screen">
+
+    <div class="login-card">
+
+      <div class="logo">MARALUX<span>.AI</span></div>
+
+      <h1>Painel Administrativo</h1>
+
+      <p class="subtitle">
+        Acesso restrito aos administradores.
+      </p>
+
+      <form id="loginForm">
+
+        <label>E-mail</label>
+
+        <input
+          id="adminEmail"
+          type="email"
+          placeholder="admin@maralux.ai"
+          autocomplete="username"
+          required
+        >
+
+        <label>Senha</label>
+
+        <input
+          id="adminPassword"
+          type="password"
+          placeholder="Digite sua senha"
+          autocomplete="current-password"
+          required
+        >
+
+        <button type="submit">
+          ENTRAR
+        </button>
+
+      </form>
+
+      <div id="loginMessage"></div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PAINEL -->
+  <section id="dashboardScreen" class="screen hidden">
+
+    <header class="topbar">
+
+      <div>
+        <div class="logo">MARALUX<span>.AI</span></div>
+        <div class="panel-title">ADMIN PANEL</div>
+      </div>
+
+      <div class="admin-area">
+
+        <span id="adminName">
+          Administrador
+        </span>
+
+        <button id="logoutBtn">
+          SAIR
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <main class="dashboard">
+
+      <div class="dashboard-header">
+
+        <div>
+          <h1>Usuários</h1>
+
+          <p>
+            Gerencie os usuários da Maralux.AI.
+          </p>
+        </div>
+
+        <button id="refreshBtn">
+          ↻ ATUALIZAR
+        </button>
+
+      </div>
+
+
+      <!-- ESTATÍSTICAS -->
+
+      <div class="stats">
+
+        <div class="stat-card">
+
+          <span>TOTAL</span>
+
+          <strong id="totalUsers">
+            0
+          </strong>
+
+        </div>
+
+        <div class="stat-card pending">
+
+          <span>PENDENTES</span>
+
+          <strong id="pendingUsers">
+            0
+          </strong>
+
+        </div>
+
+        <div class="stat-card approved">
+
+          <span>APROVADOS</span>
+
+          <strong id="approvedUsers">
+            0
+          </strong>
+
+        </div>
+
+        <div class="stat-card blocked">
+
+          <span>BLOQUEADOS</span>
+
+          <strong id="blockedUsers">
+            0
+          </strong>
+
+        </div>
+
+      </div>
+
+
+      <!-- FILTROS -->
+
+      <div class="filters">
+
+        <button class="filter active" data-filter="all">
+          TODOS
+        </button>
+
+        <button class="filter" data-filter="pending">
+          PENDENTES
+        </button>
+
+        <button class="filter" data-filter="approved">
+          APROVADOS
+        </button>
+
+        <button class="filter" data-filter="blocked">
+          BLOQUEADOS
+        </button>
+
+        <button class="filter" data-filter="rejected">
+          REJEITADOS
+        </button>
+
+      </div>
+
+
+      <!-- USUÁRIOS -->
+
+      <div id="usersContainer" class="users-container">
+
+        <div class="loading">
+          Carregando usuários...
+        </div>
+
+      </div>
+
+    </main>
+
+  </section>
+
+
+  <script src="admin.js"></script>
+
+</body>
+</html>
