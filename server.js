@@ -426,7 +426,12 @@ if (user.status === "blocked") {
     message: "Sua conta está bloqueada."
   });
 }
-
+if (user.status === "rejected") {
+  return res.json({
+    success: false,
+    message: "Sua conta foi rejeitada."
+  });
+}
 
   res.json({
     success: true,
