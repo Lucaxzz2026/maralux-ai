@@ -38,6 +38,44 @@ function saveUsers(users) {
     JSON.stringify(users, null, 2)
   );
 }
+function ensureAdmin() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    console.log("⚠️ ADMIN_EMAIL/ADMIN_PASSWORD não configurados.");
+    return;
+  }
+
+  const users = getUsers();
+
+  const existingAdmin = users.find(
+    user =>
+      user.email &&
+      user.email.toLowerCase() === email.toLowerCase() &&
+      user.role === "admin"
+  );
+
+  if (existingAdmin) {
+    console.log("✅ Administrador já existe.");
+    return;
+  }
+
+  const hashedPassword = bcrypt.hashSync(password, 12);
+
+  users.push({
+    name: "Administrador",
+    email,
+    password: hashedPassword,
+    status: "approved",
+    role: "admin",
+    createdAt: new Date().toISOString()
+  });
+
+  saveUsers(users);
+
+  console.log("✅ Administrador criado automaticamente.");
+}
 
 function getConversations(){
 
@@ -402,7 +440,7 @@ if (user.status === "blocked") {
 });
 
 const PORT = process.env.PORT || 3000;
-
+ensureAdmin();
 app.listen(PORT, () => {
   console.log(`Servidor rodando em http://localhost:${PORT}`);
 });
