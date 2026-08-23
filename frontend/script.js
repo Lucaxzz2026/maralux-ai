@@ -11,6 +11,32 @@ function linkify(text) {
     '<a href="$1" target="_blank" style="color:#60a5fa;text-decoration:underline;">$1</a>'
   );
 }
+function formatAIResponse(text) {
+  let formatted = String(text || "");
+
+  // Escapa HTML para impedir que a resposta da IA injete código na página
+  formatted = formatted
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
+  // Negrito: **texto**
+  formatted = formatted.replace(
+    /\*\*(.*?)\*\*/g,
+    "<strong>$1</strong>"
+  );
+
+  // Itálico simples: *texto*
+  formatted = formatted.replace(
+    /(^|[^\*])\*([^*\n]+)\*(?!\*)/g,
+    "$1<em>$2</em>"
+  );
+
+  // Quebras de linha
+  formatted = formatted.replace(/\n/g, "<br>");
+
+  return formatted;
+}
 function getSessionKey(){
 
   const user =
@@ -78,7 +104,7 @@ localStorage.setItem(
   messagesArea.innerHTML += `
       <div style="text-align:left;margin:10px;">
         <div style="display:inline-block;background:#111827;color:white;padding:10px 14px;border-radius:12px;max-width:80%;">
-          ${linkify(data.reply || "Sem resposta")}
+          ${linkify(formatAIResponse(data.reply || "Sem resposta"))}
         </div>
       </div>
     `;
