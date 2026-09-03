@@ -31,6 +31,22 @@ pool.query("SELECT NOW()")
   .catch(error => {
     console.error("❌ POSTGRES ERRO:", error.message);
   });
+
+pool.query(`
+  CREATE TABLE IF NOT EXISTS users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'pending',
+    role TEXT DEFAULT 'user',
+    reason TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  )
+`)
+.then(() => console.log("✅ Tabela users pronta."))
+.catch(error => console.error("❌ Erro na tabela users:", error.message));
+
 const { needsInternet } = require("./services/intentDetector");
 const { searchInternet } = require("./services/tavily");
 const { searchYoutube } = require("./services/youtube");
