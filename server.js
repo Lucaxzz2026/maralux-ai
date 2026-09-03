@@ -24,6 +24,61 @@ const upload = multer({
 });
 const fs = require("fs");
 const pool = require("./db");
+async function migrateUsersToPostgres() {
+  try {
+    const users = JSON.parse(
+      fs.readFileSync("users.json", "utf8")
+    );
+
+    console.log(`📦 JSON contém ${users.length} usuários.`);
+
+    for (const user of users) {
+      const existing = await pool.query(
+        "SELECT id FROM users WHERE email = $1",
+        [user.email]
+      );
+
+      if (existing.rows.length > 0) {
+        console.log(`⏭️ Já existe: ${user.email}`);
+        continue;
+      }
+
+      await pool.query(
+        `
+        INSERT INTO users
+        (name, email, password, status, role, reason, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        `,
+        [
+          user.name,
+          user.email,
+          user.password,
+          user.status || "pending",
+          user.role || "user",
+          user.reason || null,
+          user.createdAt
+            ? new Date(user.createdAt)
+            : new Date()
+        ]
+      );
+
+      console.log(`✅ Migrado: ${user.email}`);
+    }
+
+    const result = await pool.query(
+      "SELECT id, name, email, status, role FROM users ORDER BY id"
+    );
+
+    console.log(`✅ PostgreSQL agora possui ${result.rows.length} usuários.`);
+    console.table(result.rows);
+
+  } catch (error) {
+    console.error("❌ Erro na migração:", error.message);
+  }
+}
+
+migrateUsersToPostgres();
+
 pool.query("SELECT NOW()")
   .then(result => {
     console.log("✅ POSTGRES OK:", result.rows[0]);
