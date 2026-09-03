@@ -24,6 +24,13 @@ const upload = multer({
 });
 const fs = require("fs");
 const pool = require("./db");
+pool.query("SELECT NOW()")
+  .then(result => {
+    console.log("✅ POSTGRES OK:", result.rows[0]);
+  })
+  .catch(error => {
+    console.error("❌ POSTGRES ERRO:", error.message);
+  });
 const { needsInternet } = require("./services/intentDetector");
 const { searchInternet } = require("./services/tavily");
 const { searchYoutube } = require("./services/youtube");
