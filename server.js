@@ -377,83 +377,134 @@ console.log("CONVERSA SALVA:", conversations);
 // ======================
 // ▶️ START
 // ======================
-app.post("/register", (req, res) => {
-  const { name, email, password } = req.body;
+app.post("/register", async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
 
-  const users = getUsers();
+    if (!name || !email || !password) {
+      return res.json({
+        success: false,
+        message: "Preencha todos os campos."
+      });
+    }
 
-  const existingUser = users.find(
-    user => user.email === email
-  );
+    const normalizedEmail = email.trim().toLowerCase();
 
-  if (existingUser) {
-    return res.json({
+    const existingUser = await pool.query(
+      "SELECT id FROM users WHERE LOWER(email) = LOWER($1)",
+      [normalizedEmail]
+    );
+
+    if (existingUser.rows.length > 0) {
+      return res.json({
+        success: false,
+        message: "Email já cadastrado."
+      });
+    }
+
+    const hashedPassword = bcrypt.hashSync(password, 12);
+
+    await pool.query(
+      `
+      INSERT INTO users
+      (name, email, password, status, role)
+      VALUES ($1, $2, $3, $4, $5)
+      `,
+      [
+        name.trim(),
+        normalizedEmail,
+        hashedPassword,
+        "pending",
+        "user"
+      ]
+    );
+
+    console.log(`✅ Novo usuário cadastrado no PostgreSQL: ${normalizedEmail}`);
+
+    res.json({
+      success: true,
+      message: "Cadastro realizado com sucesso."
+    });
+
+  } catch (error) {
+    console.error("❌ Erro no cadastro:", error.message);
+
+    res.json({
       success: false,
-      message: "Email já cadastrado."
+      message: "Erro interno ao realizar cadastro."
     });
   }
-
-  const hashedPassword = bcrypt.hashSync(password, 12);
-
-users.push({
-  name,
-  email,
-  password: hashedPassword,
-  status: "pending"
 });
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
 
-  saveUsers(users);
-
-  res.json({
-    success: true,
-    message: "Cadastro realizado com sucesso."
-  });
-});
-app.post("/login", (req, res) => {
-
-  const { email, password } = req.body;
-
-  const users = getUsers();
-
-  const user = users.find(
-  u => u.email === email
-);
-if (!user || !bcrypt.compareSync(password, user.password)) {
-  return res.json({
-    success: false,
-    message: "Email ou senha inválidos."
-  });
-}
-
-if (user.status === "pending") {
-  return res.json({
-    success: false,
-    message: "Sua conta está aguardando aprovação."
-  });
-}
-
-if (user.status === "blocked") {
-  return res.json({
-    success: false,
-    message: "Sua conta está bloqueada."
-  });
-}
-if (user.status === "rejected") {
-  return res.json({
-    success: false,
-    message: "Sua conta foi rejeitada."
-  });
-}
-
-  res.json({
-    success: true,
-    message: "Login realizado com sucesso.",
-    user: {
-      name: user.name,
-      email: user.email
+    if (!email || !password) {
+      return res.json({
+        success: false,
+        message: "Email e senha são obrigatórios."
+      });
     }
-  });
 
+    const normalizedEmail = email.trim().toLowerCase();
+
+    const result = await pool.query(
+      `
+      SELECT id, name, email, password, status, role
+      FROM users
+      WHERE LOWER(email) = LOWER($1)
+      LIMIT 1
+      `,
+      [normalizedEmail]
+    );
+
+    const user = result.rows[0];
+
+    if (!user || !bcrypt.compareSync(password, user.password)) {
+      return res.json({
+        success: false,
+        message: "Email ou senha inválidos."
+      });
+    }
+
+    if (user.status === "pending") {
+      return res.json({
+        success: false,
+        message: "Sua conta está aguardando aprovação."
+      });
+    }
+
+    if (user.status === "blocked") {
+      return res.json({
+        success: false,
+        message: "Sua conta está bloqueada."
+      });
+    }
+
+    if (user.status === "rejected") {
+      return res.json({
+        success: false,
+        message: "Sua conta foi rejeitada."
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Login realizado com sucesso.",
+      user: {
+        name: user.name,
+        email: user.email
+      }
+    });
+
+  } catch (error) {
+    console.error("❌ Erro no login:", error.message);
+
+    res.json({
+      success: false,
+      message: "Erro interno."
+    });
+  }
 });
 
 const PORT = process.env.PORT || 3000;
