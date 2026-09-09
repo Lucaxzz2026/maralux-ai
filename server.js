@@ -24,60 +24,6 @@ const upload = multer({
 });
 const fs = require("fs");
 const pool = require("./db");
-async function migrateUsersToPostgres() {
-  try {
-    const users = JSON.parse(
-      fs.readFileSync("users.json", "utf8")
-    );
-
-    console.log(`📦 JSON contém ${users.length} usuários.`);
-
-    for (const user of users) {
-      const existing = await pool.query(
-        "SELECT id FROM users WHERE email = $1",
-        [user.email]
-      );
-
-      if (existing.rows.length > 0) {
-        console.log(`⏭️ Já existe: ${user.email}`);
-        continue;
-      }
-
-      await pool.query(
-        `
-        INSERT INTO users
-        (name, email, password, status, role, reason, created_at)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
-        `,
-        [
-          user.name,
-          user.email,
-          user.password,
-          user.status || "pending",
-          user.role || "user",
-          user.reason || null,
-          user.createdAt
-            ? new Date(user.createdAt)
-            : new Date()
-        ]
-      );
-
-      console.log(`✅ Migrado: ${user.email}`);
-    }
-
-    const result = await pool.query(
-      "SELECT id, name, email, status, role FROM users ORDER BY id"
-    );
-
-    console.log(`✅ PostgreSQL agora possui ${result.rows.length} usuários.`);
-    console.table(result.rows);
-
-  } catch (error) {
-    console.error("❌ Erro na migração:", error.message);
-  }
-}
-
-migrateUsersToPostgres();
 
 pool.query("SELECT NOW()")
   .then(result => {
@@ -87,20 +33,6 @@ pool.query("SELECT NOW()")
     console.error("❌ POSTGRES ERRO:", error.message);
   });
 
-pool.query(`
-  CREATE TABLE IF NOT EXISTS users (
-    id SERIAL PRIMARY KEY,
-    name TEXT NOT NULL,
-    email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
-    status TEXT NOT NULL DEFAULT 'pending',
-    role TEXT DEFAULT 'user',
-    reason TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-  )
-`)
-.then(() => console.log("✅ Tabela users pronta."))
-.catch(error => console.error("❌ Erro na tabela users:", error.message));
 
 const { needsInternet } = require("./services/intentDetector");
 const { searchInternet } = require("./services/tavily");
@@ -525,7 +457,86 @@ if (user.status === "rejected") {
 });
 
 const PORT = process.env.PORT || 3000;
-ensureAdmin();
-app.listen(PORT, () => {
-  console.log(`Servidor rodando em http://localhost:${PORT}`);
-});
+
+async function syncUsersToPostgres() {
+  try {
+    const users = getUsers();
+
+    console.log(`📦 Sincronizando ${users.length} usuários com PostgreSQL...`);
+
+    for (const user of users) {
+      await pool.query(
+        `
+        INSERT INTO users
+        (name, email, password, status, role, reason, created_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        ON CONFLICT (email)
+        DO UPDATE SET
+          name = EXCLUDED.name,
+          password = EXCLUDED.password,
+          status = EXCLUDED.status,
+          role = EXCLUDED.role,
+          reason = EXCLUDED.reason,
+          created_at = EXCLUDED.created_at
+        `,
+        [
+          user.name,
+          user.email,
+          user.password,
+          user.status || "pending",
+          user.role || "user",
+          user.reason || null,
+          user.createdAt
+            ? new Date(user.createdAt)
+            : new Date()
+        ]
+      );
+
+      console.log(`✅ Sincronizado: ${user.email}`);
+    }
+
+    const result = await pool.query(
+      "SELECT id, name, email, status, role FROM users ORDER BY id"
+    );
+
+    console.log(
+      `✅ PostgreSQL agora possui ${result.rows.length} usuários.`
+    );
+
+    console.table(result.rows);
+
+  } catch (error) {
+    console.error("❌ Erro na sincronização:", error.message);
+  }
+}
+async function startServer() {
+  try {
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        name TEXT NOT NULL,
+        email TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL,
+        status TEXT NOT NULL DEFAULT 'pending',
+        role TEXT DEFAULT 'user',
+        reason TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+
+    console.log("✅ Tabela users pronta.");
+
+    ensureAdmin();
+
+    await syncUsersToPostgres();
+
+    app.listen(PORT, () => {
+      console.log(`Servidor rodando em http://localhost:${PORT}`);
+    });
+
+  } catch (error) {
+    console.error("❌ Erro ao iniciar servidor:", error.message);
+  }
+}
+
+startServer();
