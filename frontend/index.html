@@ -130,62 +130,49 @@
 </div>
 
   </div>  
-</div>  <!-- ══════════════════════════════════════════  
-     SCREEN 4 — OTP VERIFICATION  
-════════════════════════════════════════════ -->  <div class="screen hidden" id="otpScreen">  
-  <div class="auth-card">  <div class="auth-logo">  
-  <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">  
-    <polygon points="22,3 40,12 40,32 22,41 4,32 4,12" stroke="url(#lg_otp)" stroke-width="1.5" fill="none"/>  
-    <circle cx="22" cy="22" r="6" fill="url(#lg_otp)" opacity=".9"/>  
-    <defs>  
-      <linearGradient id="lg_otp" x1="0" y1="0" x2="44" y2="44" gradientUnits="userSpaceOnUse">  
-        <stop offset="0%" stop-color="#00e5ff"/>  
-        <stop offset="100%" stop-color="#b400ff"/>  
-      </linearGradient>  
-    </defs>  
-  </svg>  
-  <span class="auth-logo-text">MARALUX.AI</span>  
-</div>  
+</div> <!-- SCREEN 4 — ACCOUNT APPROVAL -->
+<div class="screen hidden" id="approvalScreen">
+  <div class="auth-card">
 
-<div class="auth-title">VERIFICAÇÃO</div>  
-<div class="auth-sub" id="otpSubtitle">Código enviado para seu e-mail</div>  
+    <div class="auth-logo">
+      <svg class="auth-logo-icon" viewBox="0 0 44 44" fill="none">
+        <polygon points="22,3 40,12 40,32 22,41 4,32 4,12"
+          stroke="url(#lg_approval)" stroke-width="1.5" fill="none"/>
+        <circle cx="22" cy="22" r="6"
+          fill="url(#lg_approval)" opacity=".9"/>
+        <defs>
+          <linearGradient id="lg_approval"
+            x1="0" y1="0" x2="44" y2="44"
+            gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="#00e5ff"/>
+            <stop offset="100%" stop-color="#b400ff"/>
+          </linearGradient>
+        </defs>
+      </svg>
 
-<div class="alert alert-info show" id="otpInfo">  
-  <span>📧</span>  
-  <span id="otpInfoText">Gerando código...</span>  
-</div>  
-<div class="alert alert-error" id="otpError"></div>  
-<div class="alert alert-success" id="otpSuccess"></div>  
+      <span class="auth-logo-text">MARALUX.AI</span>
+    </div>
 
-<div class="otp-row">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp0"  
-    oninput="otpMove(this,0)" onkeydown="otpBack(event,0)">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp1"  
-    oninput="otpMove(this,1)" onkeydown="otpBack(event,1)">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp2"  
-    oninput="otpMove(this,2)" onkeydown="otpBack(event,2)">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp3"  
-    oninput="otpMove(this,3)" onkeydown="otpBack(event,3)">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp4"  
-    oninput="otpMove(this,4)" onkeydown="otpBack(event,4)">  
-  <input class="otp-input" maxlength="1" type="text" inputmode="numeric" id="otp5"  
-    oninput="otpMove(this,5)" onkeydown="otpBack(event,5)">  
-</div>  
+    <div class="auth-title">CONTA AGUARDANDO APROVAÇÃO</div>
 
-<div class="otp-timer" id="otpTimer">  
-  Reenviar em <span id="otpCountdown">60</span>s  
-</div>  
+    <div class="auth-sub">
+      Sua conta foi criada com sucesso e está aguardando
+      aprovação do administrador.
+    </div>
 
-<button class="btn btn-primary" id="verifyBtn" onclick="doVerify()" style="margin-top:16px">  
-  <div class="spinner" id="verifySpinner"></div>  
-  <span id="verifyBtnText">VERIFICAR</span>  
-</button>  
+    <div class="alert alert-info show" style="margin-top:20px">
+      <span>◉</span>
+      <span>Você poderá entrar quando sua conta for aprovada.</span>
+    </div>
 
-<div class="otp-resend-wrap">  
-  <button class="btn-link" id="resendBtn" onclick="resendOtp()">Reenviar código</button>  
-</div>
+    <button
+      class="btn btn-primary"
+      onclick="showScreen('loginScreen')"
+      style="margin-top:20px">
+      VOLTAR PARA LOGIN
+    </button>
 
-  </div>  
+  </div>
 </div>  <!-- ══════════════════════════════════════════  
      SCREEN 5 — APP  
 ════════════════════════════════════════════ -->  <div class="screen hidden" id="appScreen">    <!-- MENU OVERLAY -->    <div class="overlay" id="menuOverlay" onclick="closeAllMenus()">  

@@ -233,7 +233,15 @@ showScreen("appScreen");
 
 } else {
 
-      alert(data.message);
+      if(data.message === "Sua conta está aguardando aprovação."){
+
+        showScreen("approvalScreen");
+
+      } else {
+
+        alert(data.message);
+
+      }
 
     }
 
@@ -279,9 +287,7 @@ async function doRegister(){
 
     if(data.success){
 
-      alert("Cadastro realizado com sucesso!");
-
-      showScreen("loginScreen");
+      showScreen("approvalScreen");
 
     } else {
 
