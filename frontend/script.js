@@ -227,7 +227,7 @@ if(headerAvatarIni){
 if(profileMenuIni){
   profileMenuIni.textContent = initial;
 }
-alert("Login realizado com sucesso!");
+showLoginToast("Login realizado com sucesso!");
 
 showScreen("appScreen");
 
@@ -308,6 +308,65 @@ function doVerify(){}
 function resendOtp(){}
 function otpMove(){}
 function otpBack(){}
+function showLoginToast(message){
+
+  let toast = document.getElementById("maraluxToast");
+
+  if(!toast){
+
+    toast = document.createElement("div");
+
+    toast.id = "maraluxToast";
+
+    toast.style.position = "fixed";
+    toast.style.right = "20px";
+    toast.style.bottom = "24px";
+    toast.style.zIndex = "99999";
+    toast.style.display = "flex";
+    toast.style.alignItems = "center";
+    toast.style.gap = "12px";
+    toast.style.padding = "14px 18px";
+    toast.style.borderRadius = "14px";
+    toast.style.background = "rgba(10, 18, 30, 0.96)";
+    toast.style.border = "1px solid #00ff88";
+    toast.style.boxShadow = "0 0 20px rgba(0,255,136,.25)";
+    toast.style.color = "#ffffff";
+    toast.style.fontSize = "14px";
+    toast.style.fontFamily = "inherit";
+
+    document.body.appendChild(toast);
+  }
+
+  toast.innerHTML = `
+    <span style="
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      width:24px;
+      height:24px;
+      border-radius:50%;
+      background:#00ff88;
+      color:#06100b;
+      font-weight:bold;
+    ">✓</span>
+
+    <span>${message}</span>
+  `;
+
+  toast.style.opacity = "1";
+
+  clearTimeout(window.maraluxToastTimer);
+
+  window.maraluxToastTimer = setTimeout(() => {
+
+    toast.style.opacity = "0";
+
+    setTimeout(() => {
+      if(toast) toast.remove();
+    }, 300);
+
+  }, 3000);
+}
 function handleKey(event){
   if(event.key === "Enter" && !event.shiftKey){
     event.preventDefault();
